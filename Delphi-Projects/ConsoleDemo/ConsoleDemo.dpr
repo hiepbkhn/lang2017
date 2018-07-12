@@ -23,12 +23,11 @@ var
     tempIV: TAESBlock;
     sha1_digest: TSHA1Digest;
 begin
-    msg := 'hello world';
+//    msg := 'hello world';
+    msg := 'Create a DirectoryInfo object representing the specified directory.';
     IVStr := 'pemgail9uzpgzl88';
     // 1 - Encryption
     SynCommons.HexToBin(Pointer(SHA256(my_key)), @key, 32);
-
-
 
     s := '';
     for I := 0 to 31 do
@@ -36,16 +35,22 @@ begin
         s := s + IntToStr(key[I]) + ' ';
     end;
     Writeln('key = ' + s);
-
     //
     aes := TAESCBC.Create(key, 256);
     for I := 0 to 15 do
     begin
         // S := S + intToStr(aes.IV[I]) + ' ';
-        tempIV[I] := Ord(IVStr[I + 1]) - 48;
+        tempIV[I] := Ord(IVStr[I + 1]); // - 48;
         // Write(aes.IV[I]);
     end;
     aes.IV := tempIV;
+
+    s := '';
+    for I := 0 to 15 do
+    begin
+        s := s + IntToStr(tempIV[I]) + ' ';
+    end;
+    Writeln('aes.IV = ' + s);
 
     // Writeln(S);
     // Edit2.Text := S;
@@ -59,7 +64,7 @@ begin
     s := '';
     for I := 0 to 15 do
     begin
-        s := s + Chr(aes.IV[I] + 48) + ' ';
+        s := s + Chr(aes.IV[I]) + ' ';
     end;
     Writeln('aes.IV = ' + s);
 
@@ -115,8 +120,8 @@ end;
 ////////////////// MAIN
 begin
 
-//    TestAES();
+    TestAES();
 
-    TestHash();
+//    TestHash();
 
 end.
